@@ -8,7 +8,9 @@
 #
 
 library(shiny)
-
+library(shinydashboard)
+library(shinyWidgets)
+data <- read.csv("DIG-1.csv")
 # Define UI for application that draws a histogram
 fluidPage(
 
