@@ -11,25 +11,38 @@ library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
 data <- read.csv("DIG-1.csv")
-# Define UI for application that draws a histogram
-fluidPage(
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+    menuItem("Widgets", tabName = "widgets", icon = icon("th")),
+    menuItem("Charts", tabName = "charts", icon = icon("chart-line")), 
+    menuItem("Raw data", tabName = "raw_data", icon = icon("table"))
+    
+  )
+)
 
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
+body <- dashboardBody(
+  tabItems(
+    tabItem(tabName = "dashboard",
+            h2("Dashboard tab content")
+            ),
+    tabItem(tabName = "widgets",
+            h2("Widgets tab content")
+            ),
+    tabItem(tabName = "charts",
+            h2("Charts tab content")
+            ),
+    tabItem(tabName = "raw_data",
+            h2("Raw data tab content")
+            )
+  )
+  
+)
 
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
-        )
-    )
+dashboardPage(
+  skin = "purple",
+  dashboardHeader(title = "Data analysis of digioxin treatment trial", titleWidth = 450),
+  sidebar,
+  body
 )
