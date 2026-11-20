@@ -10,7 +10,7 @@
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
-data <- read.csv("DIG-1.csv")
+data_dig <- read.csv("DIG-1.csv")
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
@@ -25,16 +25,18 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   tabItems(
     tabItem(tabName = "dashboard",
-            h2("Dashboard tab content")
+            h2("Dashboard")
             ),
     tabItem(tabName = "widgets",
-            h2("Widgets tab content")
+            h2("Widgets")
             ),
     tabItem(tabName = "charts",
-            h2("Charts tab content")
+            h2("Charts")
             ),
     tabItem(tabName = "raw_data",
-            h2("Raw data tab content")
+            h2("Raw data"),
+            numericInput("maxrows", "Rows to show", value = 25, min = 1, max = 6800),
+            verbatimTextOutput("rawtable")
             )
   )
   
