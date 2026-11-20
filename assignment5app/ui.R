@@ -13,10 +13,12 @@ library(shinyWidgets)
 data_dig <- read.csv("DIG-1.csv")
 
 sidebar <- dashboardSidebar(
+  width = 300,
   sidebarMenu(
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Widgets", tabName = "widgets", icon = icon("th")),
     menuItem("Charts", tabName = "charts", icon = icon("chart-line")), 
+    menuItem("Treatment groups comparison", tabName = "treatment_groups", icon = icon("table-columns")),
     menuItem("Raw data", tabName = "raw_data", icon = icon("table"))
     
   )
@@ -32,6 +34,9 @@ body <- dashboardBody(
             ),
     tabItem(tabName = "charts",
             h2("Charts")
+            ),
+    tabItem(tabName = "treatment_groups",
+            h2("Treatment groups baseline characteristics comparison"),
             ),
     tabItem(tabName = "raw_data",
             h2("Raw data"),
