@@ -27,7 +27,9 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   tabItems(
     tabItem(tabName = "dashboard",
-            h2("Dashboard")
+            h2("Dashboard"),
+            fluidRow(
+            box(title = "Background information",status = "success", solidHeader = T,"The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ) )
             ),
     tabItem(tabName = "widgets",
             h2("Widgets")
