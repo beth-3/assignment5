@@ -6,7 +6,7 @@
 #
 #    https://shiny.posit.co/
 #
-
+library(table1)
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
@@ -56,7 +56,23 @@ data_dig$NSYM <- factor(data_dig$NSYM, levels = c(0, 1, 2, 3, 4 ))
 data_dig$FUNCTCLS <- factor(data_dig$FUNCTCLS, levels = c( 1, 2, 3, 4 ))
 data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
-
+label(data_dig$AGE) <- "Age"
+label(data_dig$RACE) <- "Race"
+label(data_dig$BMI) <- "BMI"
+label(data_dig$SEX) <- "Sex"
+label(data_dig$HYPERTEN) <- "History of Hypertension"
+label(data_dig$KLEVEL) <- "Serum Potassium Levels"
+label(data_dig$CREAT) <- "Serum Creatine"
+label(data_dig$SYSBP) <- "Systolic BP" 
+label(data_dig$DIABP) <- "Diastolic BP"
+label(data_dig$TRTMT) <- "Treatment"
+  
+units(dat_dig$BMI) <- "kg/M*M"
+units(data_dig$AGE) <- "Years"
+units(data_dig$KLEVEL) <- "mEq/L"
+units(data_dig$CREAT) <- "mg/dL"
+units(dat_dig$SYSBP) <- "mmHg"
+units(data_dig$DIABP) <- "mmHg"
 
 sidebar <- dashboardSidebar(
   width = 300,
@@ -64,7 +80,7 @@ sidebar <- dashboardSidebar(
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Widgets", tabName = "widgets", icon = icon("th")),
     menuItem("Charts", tabName = "charts", icon = icon("chart-line")), 
-    menuItem("Treatment groups comparison", tabName = "treatment_groups", icon = icon("table-columns")),
+    menuItem("Baseline characteristics comparison", tabName = "treatment_groups", icon = icon("table-columns")),
     menuItem("Raw data", tabName = "raw_data", icon = icon("table"))
     
   )
