@@ -56,23 +56,13 @@ data_dig$NSYM <- factor(data_dig$NSYM, levels = c(0, 1, 2, 3, 4 ))
 data_dig$FUNCTCLS <- factor(data_dig$FUNCTCLS, levels = c( 1, 2, 3, 4 ))
 data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
-label(data_dig$AGE) <- "Age"
-label(data_dig$RACE) <- "Race"
-label(data_dig$BMI) <- "BMI"
-label(data_dig$SEX) <- "Sex"
-label(data_dig$HYPERTEN) <- "History of Hypertension"
-label(data_dig$KLEVEL) <- "Serum Potassium Levels"
-label(data_dig$CREAT) <- "Serum Creatine"
-label(data_dig$SYSBP) <- "Systolic BP" 
-label(data_dig$DIABP) <- "Diastolic BP"
-label(data_dig$TRTMT) <- "Treatment"
-  
-units(dat_dig$BMI) <- "kg/M*M"
-units(data_dig$AGE) <- "Years"
-units(data_dig$KLEVEL) <- "mEq/L"
-units(data_dig$CREAT) <- "mg/dL"
-units(dat_dig$SYSBP) <- "mmHg"
-units(data_dig$DIABP) <- "mmHg"
+data_dig <- data_dig %>%
+  rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN, Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES )
+
+
+
+
+
 
 sidebar <- dashboardSidebar(
   width = 300,
@@ -101,6 +91,11 @@ body <- dashboardBody(
             ),
     tabItem(tabName = "treatment_groups",
             h2("Treatment groups baseline characteristics comparison"),
+            box(tableOutput("comparison table")),
+            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group", status = "Primary", plotOutput()),
+            box(title = "Inputs", status = "warning", "Choose inputs for Analysis of Baseline Charaterisitcs Between Treatment Group",
+                textInput())
+          
             ),
     tabItem(tabName = "raw_data",
             h2("Raw data"),
