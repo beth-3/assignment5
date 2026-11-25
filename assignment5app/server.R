@@ -6,6 +6,7 @@
 #
 #    https://shiny.posit.co/
 #
+library(DT)
 library(table1)
 library(shiny)
 library(shinydashboard)
@@ -60,13 +61,9 @@ data_dig$NSYM <- factor(data_dig$NSYM, levels = c(0, 1, 2, 3, 4 ))
 data_dig$FUNCTCLS <- factor(data_dig$FUNCTCLS, levels = c( 1, 2, 3, 4 ))
 data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
-data_dig <- data_dig %>%
+data_dig_clean <- data_dig %>%
   rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN, Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES )
 function(input, output, session) {
-  output$rawtable <- renderPrint({
-  orig <- options(width = 1000)
-  print(head(data_dig, input$maxrows), row.names = TRUE)
-  options(orig)
-})
+  output$rawtable = DT::renderDataTable(data_dig, server = F, selection = 'single', options = list(scrollX = T))
   
 }
