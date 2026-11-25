@@ -56,8 +56,8 @@ data_dig$NSYM <- factor(data_dig$NSYM, levels = c(0, 1, 2, 3, 4 ))
 data_dig$FUNCTCLS <- factor(data_dig$FUNCTCLS, levels = c( 1, 2, 3, 4 ))
 data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
-data_dig <- data_dig %>%
-  rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN, Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES )
+#data_dig <- data_dig %>%
+  #rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN,  Chest_Xray = CHESTX,  Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, EJFMETH = Ejection_Fraction_Method, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES, Recommended_Digoxin_Dose = DIGDOSER, Rales = RALES, Elevated_Jugular_Venous_Pressure = ELEVJVP, Peripheral_Edema = PEDEMA, Dyspnea_at_Rest = RESTDYS, DYSPNEA_on_Exertion = EXERTDYS, Limitation_of_Activity = ACTLIMIT, S3_Gallop = S3, Pulmonary_Congestion = PULCONG,  Duration_of_CHF = CHFDUR, NYHA_Functional_Class = FUNCTCLS, CHF_Etiology = CHFETIOL, Digoxin_Within_Past_Week = DIGUSE, Potassium_Sparing_Diuretics = DIURETK, Other_Diuretics = DIURET, Potassium_Supplements = KSUPP, Ace_Inhibitors = ACEINHIB, Nitrates = NITRATES, Hydralazine = HYDRAL, Other_Vasodilators = VASOD, Dose_of_Digoxin/Placebo_Prescribed = DIGDOSE, Cardiovascular_Disease_Hosp = CVD,  )
 
 
 
