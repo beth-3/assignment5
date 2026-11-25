@@ -59,9 +59,9 @@ data_dig$FUNCTCLS <- factor(data_dig$FUNCTCLS, levels = c( 1, 2, 3, 4 ))
 data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
 data_dig_clean <- data_dig %>%
-  rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN,  Chest_Xray = CHESTX,  Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Ejection_Fraction_Method = EJFMETH , Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastolic_BP = DIABP, Systolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES , Recommended_Digoxin_Dose = DIGDOSER, Rales = RALES, Elevated_Jugular_Venous_Pressure = ELEVJVP, Peripheral_Edema = PEDEMA, Dyspnea_at_Rest = RESTDYS, DYSPNEA_on_Exertion = EXERTDYS, Limitation_of_Activity = ACTLIMIT, S3_Gallop = S3, Pulmonary_Congestion = PULCONG,  Duration_of_CHF = CHFDUR, NYHA_Functional_Class = FUNCTCLS, CHF_Etiology = CHFETIOL, Digoxin_Within_Past_Week = DIGUSE, Potassium_Sparing_Diuretics = DIURETK, Other_Diuretics = DIURET, Potassium_Supplements = KSUPP, Ace_Inhibitors = ACEINHIB, Nitrates = NITRATES, Hydralazine = HYDRAL, Other_Vasodilators = VASOD, Dose_of_Digoxin_or_Placebo_Prescribed = DIGDOSE, Cardiovascular_Disease_Hosp = CVD,  )
+  rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN,  Chest_Xray = CHESTX,  Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Ejection_Fraction_Method = EJFMETH , Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastolic_BP = DIABP, Systolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES , Recommended_Digoxin_Dose = DIGDOSER, Rales = RALES, Elevated_Jugular_Venous_Pressure = ELEVJVP, Peripheral_Edema = PEDEMA, Dyspnea_at_Rest = RESTDYS, DYSPNEA_on_Exertion = EXERTDYS, Limitation_of_Activity = ACTLIMIT, S3_Gallop = S3, Pulmonary_Congestion = PULCONG,  Duration_of_CHF = CHFDUR, NYHA_Functional_Class = FUNCTCLS, CHF_Etiology = CHFETIOL, Digoxin_Within_Past_Week = DIGUSE, Potassium_Sparing_Diuretics = DIURETK, Other_Diuretics = DIURET, Potassium_Supplements = KSUPP, Ace_Inhibitors = ACEINHIB, Nitrates = NITRATES, Hydralazine = HYDRAL, Other_Vasodilators = VASOD, Dose_of_Digoxin_or_Placebo_Prescribed = DIGDOSE, Cardiovascular_Disease_Hosp = CVD )
 
-
+table_pro <- table1(~Treatment, data = data_dig_clean, overall = "Overall")
 
 
 
@@ -83,7 +83,8 @@ body <- dashboardBody(
     tabItem(tabName = "dashboard",
             h2("Dashboard"),
             fluidRow(
-            box(title = "Background information",status = "success", solidHeader = T,"The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ) )
+            box(title = "Background information",status = "success", solidHeader = T,"The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ) ),
+            box(title = "Proportion of patients in each treatment group", status = "primary", solidHeader = T, table_pro)
             ),
     tabItem(tabName = "widgets",
             h2("Widgets")
@@ -100,7 +101,7 @@ body <- dashboardBody(
           
             ),
     tabItem(tabName = "raw_data",
-            h2("Raw data"),
+            h2("Raw data table"),
             hr(),
             DT::dataTableOutput("rawtable"),
             )
