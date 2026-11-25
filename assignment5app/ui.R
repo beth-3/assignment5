@@ -91,10 +91,10 @@ body <- dashboardBody(
             ),
     tabItem(tabName = "treatment_groups",
             h2("Treatment groups baseline characteristics comparison"),
+            fluidRow(
             box(tableOutput("comparison table")),
-            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group", status = "Primary", plotOutput()),
-            box(title = "Inputs", status = "warning", "Choose inputs for Analysis of Baseline Charaterisitcs Between Treatment Group",
-                textInput())
+            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group", status = "primary", plotOutput("treatment_plot")),
+            )
           
             ),
     tabItem(tabName = "raw_data",
