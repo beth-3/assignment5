@@ -10,6 +10,7 @@ library(table1)
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
+library(tidyverse)
 data_dig <- read.csv("DIG-1.csv")
 
 data_dig$SEX <- factor(data_dig$SEX, levels = c(1,2), labels = c("Male", "Female"))
