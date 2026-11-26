@@ -63,7 +63,13 @@ data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
 data_dig_clean <- data_dig %>%
   rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN, Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES )
-function(input, output, session) {
+function(input, output, session){
   output$rawtable = DT::renderDataTable(data_dig, server = F, selection = 'single', options = list(scrollX = T))
+  output$genderplot = renderPlot({
+    ggplot(data_dig_clean, aes(x = Treatment, fill = Sex)) + 
+    labs(title = "Gender counts by treatment group", x = "Treatment", y = "Count") + 
+      geom_bar(position = "dodge") +
+      scale_fill_manual(values = c("hotpink", "darkolivegreen3"))
   
 }
+)}
