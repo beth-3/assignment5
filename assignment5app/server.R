@@ -12,7 +12,7 @@ library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
 library(tidyverse)
-
+library(plotly)
 
 # Define server logic required to draw a histogram
 data_dig <- read.csv("DIG-1.csv")
@@ -61,15 +61,30 @@ data_dig$NSYM <- factor(data_dig$NSYM, levels = c(0, 1, 2, 3, 4 ))
 data_dig$FUNCTCLS <- factor(data_dig$FUNCTCLS, levels = c( 1, 2, 3, 4 ))
 data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
+
 data_dig_clean <- data_dig %>%
   rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN, Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES )
+data_digTRTMT <- data_dig_clean %>% 
+  group_by(Treatment) %>% 
+  summarise(Proportion_Patients = n()) %>% 
+  mutate(Proportion = round((Proportion_Patients / sum(Proportion_Patients) * 100), 2))
 function(input, output, session){
   output$rawtable = DT::renderDataTable(data_dig, server = F, selection = 'single', options = list(scrollX = T))
   output$genderplot = renderPlot({
     ggplot(data_dig_clean, aes(x = Treatment, fill = Sex)) + 
     labs(title = "Gender counts by treatment group", x = "Treatment", y = "Count") + 
-      geom_bar(position = "dodge") +
+      facet_wrap(~Treatment) +
+      geom_bar(position = "dodge", stat = "identity") +
       scale_fill_manual(values = c("hotpink", "darkolivegreen3"))
   
-}
-)}
+  })
+  output$test = renderPlot({
+    p <- ggplot(data_digTRTMT, aes(x = Treatment, y = Proportion, fill = Treatment)) +
+      geom_col() +
+      labs(title = "Proportion of patients in each treatment group") +
+      facet_wrap(~Treatment) +
+      scale_fill_manual(values = c("slateblue", "green2"))
+    
+    
+  ggplotly(p)
+}  )}
