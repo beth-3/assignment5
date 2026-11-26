@@ -89,4 +89,15 @@ function(input, output, session){
     
     
   ggplotly(p)
-}  )}
+  }  )
+  ##output$baseline = DT::renderDataTable({ 
+    #req(input$selected_variale)
+    #selectedcol <- data_dig_clean[[input$selected_variale]]
+    #if(is.numeric(selectedcol)){data_dig_clean %>% 
+     #   group_by(Treatment) %>% 
+      #  summarise(Mean = mean(.data[input$selected_variale]), 
+       #           SD = sd(.data[input$selected_variale]), 
+        #          Range = max(.data[input$selected_variale]) - min(.data[input$selected_variale])
+         #         IQR = IQR(.data[input$selected_variale]))}
+  }
+
