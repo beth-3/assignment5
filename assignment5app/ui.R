@@ -62,9 +62,9 @@ data_dig_clean <- data_dig %>%
   rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN,  Chest_Xray = CHESTX,  Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Ejection_Fraction_Method = EJFMETH , Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastolic_BP = DIABP, Systolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES , Recommended_Digoxin_Dose = DIGDOSER, Rales = RALES, Elevated_Jugular_Venous_Pressure = ELEVJVP, Peripheral_Edema = PEDEMA, Dyspnea_at_Rest = RESTDYS, DYSPNEA_on_Exertion = EXERTDYS, Limitation_of_Activity = ACTLIMIT, S3_Gallop = S3, Pulmonary_Congestion = PULCONG,  Duration_of_CHF = CHFDUR, NYHA_Functional_Class = FUNCTCLS, CHF_Etiology = CHFETIOL, Digoxin_Within_Past_Week = DIGUSE, Potassium_Sparing_Diuretics = DIURETK, Other_Diuretics = DIURET, Potassium_Supplements = KSUPP, Ace_Inhibitors = ACEINHIB, Nitrates = NITRATES, Hydralazine = HYDRAL, Other_Vasodilators = VASOD, Dose_of_Digoxin_or_Placebo_Prescribed = DIGDOSE, Cardiovascular_Disease_Hosp = CVD )
 
 table_pro <- table1(~Treatment, data = data_dig_clean, overall = "Overall")
-
+table_base <- table1(~Sex + Race + Age + Body_Mass_Index + History_of_Hypertension + Chest_Xray + Ejection_Fraction_Percent + Serum_Potassium +Serum_Creatinine + Heart_Rate + Diastolic_BP + Systolic_BP + Previous_Myocardial + Current_Angina + History_of_Diabetes | Treatment, data = data_dig_clean, overall = "Overall" )
 dft <- as.data.frame(table_pro)
-
+base_df <- as.data.frame(table_base)
 
 sidebar <- dashboardSidebar(
   width = 300,
@@ -83,12 +83,16 @@ body <- dashboardBody(
     tabItem(tabName = "dashboard",
             h2("Dashboard"),
             fluidRow(
-            box(title = "Background information",status = "success", solidHeader = T,"The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ) ),
+            box(title = "Background information",status = "success", solidHeader = T,"The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ),
             box(title = "Proportion of patients in each treatment group",status = "primary", solidHeader = T, hr(), DT::dataTableOutput("test") ),
             box(title = "Gender split between the two treatment groups", status = "warning", solidHeader = T, plotOutput("genderplot"))
+            )
             ),
     tabItem(tabName = "univariate_analysis",
-            h2("Univariate analysis")
+            h2("Univariate analysis"),
+            fluidRow(
+              
+            )
             ),
     tabItem(tabName = "charts",
             h2("Charts")
@@ -96,8 +100,8 @@ body <- dashboardBody(
     tabItem(tabName = "treatment_groups",
             h2("Treatment groups baseline characteristics comparison"),
             fluidRow(
-            box(tableOutput("comparison table")),
-            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group", status = "primary", plotOutput("treatment_plot")),
+            box( title =  "Table of baseline characteristics", status = "primary", solidHeader = T , hr(), DT::dataTableOutput("baseline")),
+            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group", background = "maroon", solidHeader = T, plotOutput("treatment_plot")),
             )
           
             ),
