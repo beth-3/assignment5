@@ -63,7 +63,7 @@ data_dig$CHFETIOL <- factor(data_dig$CHFETIOL, levels = c( 1, 2, 3, 4, 5, 6 ))
 
 
 data_dig_clean <- data_dig %>%
-  rename(Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN, Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastollic_BP = DIABP, Sysolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES )
+  rename( Dose_of_Digoxin_or_Placebo_Prescribed = DIGDOSE, Age = AGE, Race = RACE, Body_Mass_Index = BMI, Sex = SEX, History_of_Hypertension = HYPERTEN,  Chest_Xray = CHESTX,  Treatment = TRTMT, Ejection_Fraction_Percent = EJF_PER, Ejection_Fraction_Method = EJFMETH , Serum_Potassium = KLEVEL, Serum_Creatinine = CREAT, Heart_Rate = HEARTRTE,  Diastolic_BP = DIABP, Systolic_BP = SYSBP, Previous_Myocardial = PREVMI, Current_Angina = ANGINA, History_of_Diabetes = DIABETES , Recommended_Digoxin_Dose = DIGDOSER, Rales = RALES, Elevated_Jugular_Venous_Pressure = ELEVJVP, Peripheral_Edema = PEDEMA, Dyspnea_at_Rest = RESTDYS, Dyspnea_on_Exertion = EXERTDYS, Limitation_of_Activity = ACTLIMIT, S3_Gallop = S3, Pulmonary_Congestion = PULCONG,  Duration_of_CHF = CHFDUR, NYHA_Functional_Class = FUNCTCLS, CHF_Etiology = CHFETIOL, Digoxin_Within_Past_Week = DIGUSE, Potassium_Sparing_Diuretics = DIURETK, Other_Diuretics = DIURET, Potassium_Supplements = KSUPP, Ace_Inhibitors = ACEINHIB, Nitrates = NITRATES, Hydralazine = HYDRAL, Other_Vasodilators = VASOD, Dose_of_Digoxin_or_Placebo_Prescribed = DIGDOSE, Cardiovascular_Disease_Hosp = CVD, Worsening_Heart_Failure_Hosp  = WHF, Digoxin_Toxicity_Hosp = DIG, Myocardial_Infartion_Hosp = MI, Unstable_Angina_Hosp = UANG, Stroke_Hosp = STRK, Supraventricular_Arrhythmia_Hosp = SVA, Ventricular_Arrhythmia_Hosp = VENA, Coronary_Revascularization_Hosp = CREV, Other_Cardiovascular_Event_Hosp = OCVD, Respiratory_Infection_Hosp = RINF, Other_Noncardiac_Nonvascular_Hosp = OTH, Any_Hospitalization_Hosp = HOSP, Number_of_Hospitalizations = NHOSP, Death_Status = DEATH, Days_Till_Last_Followup_or_Death = DEATHDAY, Primary_Endpoint_Death_or_Hosp_From_HF = DWHF, Cause_of_Death = REASON)
 data_digTRTMT <- data_dig_clean %>% 
   group_by(Treatment) %>% 
   summarise(Proportion_Patients = n()) %>% 
@@ -90,14 +90,31 @@ function(input, output, session){
     
   ggplotly(p)
   }  )
-  ##output$baseline = DT::renderDataTable({ 
-    #req(input$selected_variale)
-    #selectedcol <- data_dig_clean[[input$selected_variale]]
-    #if(is.numeric(selectedcol)){data_dig_clean %>% 
-     #   group_by(Treatment) %>% 
-      #  summarise(Mean = mean(.data[input$selected_variale]), 
-       #           SD = sd(.data[input$selected_variale]), 
-        #          Range = max(.data[input$selected_variale]) - min(.data[input$selected_variale])
-         #         IQR = IQR(.data[input$selected_variale]))}
-  }
+  output$baseline = DT::renderDataTable({ 
+    req(input$selected_variale)
+    selectedcol <- data_dig_clean[[input$selected_variale]]
+    if (is.numeric(selectedcol)) {
+      data_dig_clean %>%
+        group_by(Treatment) %>%
+        summarise(
+          Mean = round(mean(.data[[input$selected_variale]], na.rm = TRUE), 2),
+          SD = round(sd(.data[[input$selected_variale]], na.rm = TRUE), 2),
+          Range = round(
+            max(.data[[input$selected_variale]], na.rm = TRUE) -
+              min(.data[[input$selected_variale]], na.rm = TRUE), 2),
+          IQR = round(IQR(.data[[input$selected_variale]], na.rm = TRUE), 2),
+          .groups = "drop"
+        )} 
+      else {
+        data_dig_clean %>%
+          drop_na(Treatment, .data[[input$selected_variale]]) %>%
+          count(Treatment, Level = .data[[input$selected_variale]], name = "N") %>%
+          group_by(Treatment) %>%
+          mutate(Percent = round(N / sum(N) * 100, 1)) %>%
+          ungroup()
+      }
+    }
+)
+}
+
 
