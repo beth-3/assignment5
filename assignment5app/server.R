@@ -70,19 +70,21 @@ data_digTRTMT <- data_dig_clean %>%
   mutate(Proportion = round((Proportion_Patients / sum(Proportion_Patients) * 100), 2))
 function(input, output, session){
   output$rawtable = DT::renderDataTable(data_dig, server = F, selection = 'single', options = list(scrollX = T))
-  output$genderplot = renderPlot({
-    ggplot(data_dig_clean, aes(x = Treatment, fill = Sex)) + 
+  output$genderplot = renderPlotly({
+    a <- ggplot(data_dig_clean, aes(x = Treatment, fill = Sex)) + 
     labs(title = "Gender counts by treatment group", x = "Treatment", y = "Count") + 
-      facet_wrap(~Treatment) +
-      geom_bar(position = "dodge", stat = "identity") +
-      scale_fill_manual(values = c("hotpink", "darkolivegreen3"))
+      facet_wrap(~Sex) +
+      geom_bar(position = "dodge", na.rm = T) +
+      scale_fill_manual(values = c("pink", "paleturquoise3")) +
+      theme_grey()
+    ggplotly(a)
   
   })
-  output$test = renderPlot({
+  output$test = renderPlotly({
     p <- ggplot(data_digTRTMT, aes(x = Treatment, y = Proportion, fill = Treatment)) +
       geom_col() +
       labs(title = "Proportion of patients in each treatment group") +
-      scale_fill_manual(values = c("cornsilk", "coral4")) +
+      scale_fill_manual(values = c("royalblue2", "plum3")) +
       theme_grey()
     
     
