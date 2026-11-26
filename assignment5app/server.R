@@ -82,7 +82,6 @@ function(input, output, session){
     p <- ggplot(data_digTRTMT, aes(x = Treatment, y = Proportion, fill = Treatment)) +
       geom_col() +
       labs(title = "Proportion of patients in each treatment group") +
-      facet_wrap(~Treatment) +
       scale_fill_manual(values = c("slateblue", "green2"))
     
     
