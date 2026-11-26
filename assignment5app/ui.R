@@ -86,7 +86,7 @@ body <- dashboardBody(
             fluidRow(
             box(title = "Background information",status = "success", solidHeader = T,"The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ),
             box(title = "Proportion of patients in each treatment group",status = "primary", solidHeader = T, plotlyOutput("test") ),
-            box(title = "Gender split between the two treatment groups", status = "warning", solidHeader = T, plotOutput("genderplot"))
+            box(title = "Gender split between the two treatment groups", status = "warning", solidHeader = T, plotlyOutput("genderplot"))
             )
             ),
     tabItem(tabName = "univariate_analysis",
