@@ -82,7 +82,8 @@ function(input, output, session){
     p <- ggplot(data_digTRTMT, aes(x = Treatment, y = Proportion, fill = Treatment)) +
       geom_col() +
       labs(title = "Proportion of patients in each treatment group") +
-      scale_fill_manual(values = c("slateblue", "green2"))
+      scale_fill_manual(values = c("cornsilk", "coral4")) +
+      theme_grey()
     
     
   ggplotly(p)
