@@ -79,7 +79,16 @@ sidebar <- dashboardSidebar(
   )
 )
 
-body <- dashboardBody(
+body <- dashboardBody( tags$head(tags$style(HTML('
+     .main-header  .logo{
+        font-family: "TT Chocolates", "ttchocolate", sans-serif;
+        font-weight: bold;
+        font-size: 22px;
+     }                                          
+  
+'))
+  
+),
   tabItems(
     tabItem(tabName = "dashboard",
             h2("Dashboard"),
