@@ -68,6 +68,7 @@ data_digTRTMT <- data_dig_clean %>%
   group_by(Treatment) %>% 
   summarise(Proportion_Patients = n()) %>% 
   mutate(Proportion = round((Proportion_Patients / sum(Proportion_Patients) * 100), 2))
+
 function(input, output, session){
   output$rawtable = DT::renderDataTable(data_dig, server = F, selection = 'single', options = list(scrollX = T))
   output$genderplot = renderPlotly({
@@ -104,7 +105,7 @@ function(input, output, session){
               min(.data[[input$selected_variale]], na.rm = TRUE), 2),
           IQR = round(IQR(.data[[input$selected_variale]], na.rm = TRUE), 2),
           .groups = "drop"
-        )} 
+        )}
       else {
         data_dig_clean %>%
           drop_na(Treatment, .data[[input$selected_variale]]) %>%
@@ -113,8 +114,7 @@ function(input, output, session){
           mutate(Percent = round(N / sum(N) * 100, 1)) %>%
           ungroup()
       }
-    }
-)
+    
+  }, options = list(searching = F, paging = F))
 }
-
 
