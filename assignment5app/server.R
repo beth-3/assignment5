@@ -117,23 +117,23 @@ function(input, output, session){
     
   }, options = list(searching = F, paging = F))
    output$treatment_plot = renderPlotly({
-     req(input$selecte_variale)
-     selected_v <- data_dig_clean[[input$selecte_variale]]
-     if (is.numeric(selected_variale)) {
-       l <- ggplot(data_dig_clean, aes(x = Treatment, y = .data[[input$selecte_variale]], 
+     req(input$selected_variale)
+     selected_v <- data_dig_clean[[input$selected_variale]]
+     if (is.numeric(selected_v)) {
+       l <- ggplot(data_dig_clean, aes(x = Treatment, y = .data[[input$selected_variale]], 
                        fill = Treatment)) +
                      geom_boxplot(alpha = 0.8, na.rm = T) +
                      theme_grey() +
                      scale_fill_manual(values = c("green", "pink")) +
-                       labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selecte_variale)
+                       labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selected_variale)
        ggplotly(l)
      }
      else{
-       l <- ggplot(data_dig_clean, aes(x = Treatment, fill = .data[[input$selecte_variale]])) +
+       l <- ggplot(data_dig_clean, aes(x = Treatment, fill = .data[[input$selected_variale]])) +
                      geom_bar(position = "dodge", na.rm = T) +
                      theme_grey() +
                      scale_fill_viridis_d(option = "magma") +
-                                         labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selecte_variale)
+                        labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selected_variale)
                    
        
        ggplotly(l) }
