@@ -69,10 +69,11 @@ base_df <- as.data.frame(table_base)
 
 sidebar <- dashboardSidebar(
   width = 300,
+  sidebarSearchForm(textId = "searchText", buttonId = "searchButton", label = "Search..."),
   sidebarMenu(
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Univariate Analysis", tabName = "univariate_analysis", icon = icon("chart-line")),
-    menuItem("Bivariate Analysis", tabName = "bivariate_analysis", icon = icon("chart-bar")), 
+    menuItem("Multivariate Analysis", tabName = "multivariate_analysis", icon = icon("chart-bar")), 
     menuItem("Baseline characteristics comparison", tabName = "treatment_groups", icon = icon("table-columns")),
     menuItem("Raw data", tabName = "raw_data", icon = icon("table"))
     
@@ -104,23 +105,26 @@ body <- dashboardBody( tags$head(tags$style(HTML('
     tabItem(tabName = "univariate_analysis",
             h2("Univariate analysis"),
             fluidRow(
-              box(title = "Table", status = "info", width = 12, solidHeader = T),
-              box(title = "Graph", background = "maroon", width = 12, solidHeader = T)
+              box(title = "Variable selection for univariate analysis between treatment groups",status = "warning",width = 12, solidHeader = T, selectInput(inputId = "select_input", label = "Select variable for analysis", choices = c("Cardiovascular_Disease_Hosp", "Worsening_Heart_Failure_Hosp",  'Digoxin_Toxicity_Hosp', 'Myocardial_Infartion_Hosp', 'Unstable_Angina_Hosp', 'Stroke_Hosp', 'Supraventricular_Arrhythmia_Hosp' , 'Ventricular_Arrhythmia_Hosp' , 'Coronary_Revascularization_Hosp' , 'Other_Cardiovascular_Event_Hosp', 'Respiratory_Infection_Hosp', 'Other_Noncardiac_Nonvascular_Hosp', 'Any_Hospitalization_Hosp', 'Number_of_Hospitalizations', 'Death_Status', "Days_Till_Last_Followup_or_Death", "Primary_Endpoint_Death_or_Hosp_From_HF", "Cause_of_Death"))),
+              box(title = "Table", status = "info", width = 12, solidHeader = T, hr(), DT::dataTableOutput("uni_table")),
+              box(title = "Graph", background = "maroon", width = 12, solidHeader = T, plotlyOutput("unianalysis_plot"))
               
             )
             ),
-    tabItem(tabName = "bivariate_analysis",
-            h2("Bivariate analysis"),
+    tabItem(tabName = "multivariate_analysis",
+            h2("Multivariate analysis"),
             fluidRow(
-              box(title = "Table", status = "info", width = 12, solidHeader = T),
-              box(title = "Graph", background = "maroon", width = 12, solidHeader = T)
+              box(title = "Variable selection for multivariate analysis between treatment groups",status = "warning",width = 12, solidHeader = T, selectInput(inputId = "select", label = "Select variables for analysis", choices = c("Cardiovascular_Disease_Hosp", "Worsening_Heart_Failure_Hosp",  'Digoxin_Toxicity_Hosp', 'Myocardial_Infartion_Hosp', 'Unstable_Angina_Hosp', 'Stroke_Hosp', 'Supraventricular_Arrhythmia_Hosp' , 'Ventricular_Arrhythmia_Hosp' , 'Coronary_Revascularization_Hosp' , 'Other_Cardiovascular_Event_Hosp', 'Respiratory_Infection_Hosp', 'Other_Noncardiac_Nonvascular_Hosp', 'Any_Hospitalization_Hosp', 'Number_of_Hospitalizations', 'Death_Status', "Days_Till_Last_Followup_or_Death", "Primary_Endpoint_Death_or_Hosp_From_HF", "Cause_of_Death"), multiple = T)),
+              box(title = "Table", status = "info", width = 12, solidHeader = T, hr(), DT::dataTableOutput("multi_table")),
+              box(title = "Graph", background = "maroon", width = 12, solidHeader = T, plotlyOutput("comparison_plot"))
             )
             ),
     tabItem(tabName = "treatment_groups",
             h2("Treatment groups baseline characteristics comparison"),
             fluidRow(
-            box( title =  "Table of baseline characteristics", status = "info",width = 12, solidHeader = T , selectInput(inputId = "selected_variale", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', "Nitrates",  "Dose_of_Digoxin_or_Placebo_Prescribed",  "Pulmonary_Congestion", "Rales", "Limitation_of_Activity", "Peripheral_Edema", "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion")), hr(),  DT::dataTableOutput("baseline")),
-            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group",  width = 12,background = "maroon", selectInput(inputId = "selecte_v", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', 'Nitrates',  'Dose_of_Digoxin_or_Placebo_Prescribed',  'Pulmonary_Congestion', 'Rales', 'Limitation_of_Activity', 'Peripheral_Edema', "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion")), solidHeader = T, plotlyOutput("treatment_plot")),
+              box(title = "Variable selection for baseline characteistics comparison between treatment groups",status = "warning",width = 12, solidHeader = T , selectInput(inputId = "selected_variale", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', "Nitrates",  "Dose_of_Digoxin_or_Placebo_Prescribed",  "Pulmonary_Congestion", "Rales", "Limitation_of_Activity", "Peripheral_Edema", "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion"))),
+              box( title =  "Table of baseline characteristics", status = "info",width = 12, solidHeader = T , hr(),  DT::dataTableOutput("baseline")),
+              box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group",  width = 12,background = "maroon", solidHeader = T, plotlyOutput("treatment_plot")),
             )
           
             ),
