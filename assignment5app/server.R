@@ -133,7 +133,7 @@ function(input, output, session){
                      geom_bar(position = "dodge", na.rm = T) +
                      theme_grey() +
                      scale_fill_viridis_d(option = "magma") +
-                                         labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selecte_variable)
+                                         labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selecte_variale)
                    
        
        ggplotly(l) }
