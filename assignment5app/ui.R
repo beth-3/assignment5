@@ -71,8 +71,8 @@ sidebar <- dashboardSidebar(
   width = 300,
   sidebarMenu(
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-    menuItem("Univariate Analysis", tabName = "univariate_analysis", icon = icon("th")),
-    menuItem("Charts", tabName = "charts", icon = icon("chart-line")), 
+    menuItem("Univariate Analysis", tabName = "univariate_analysis", icon = icon("chart-line")),
+    menuItem("Bivariate Analysis", tabName = "bivariate_analysis", icon = icon("chart-bar")), 
     menuItem("Baseline characteristics comparison", tabName = "treatment_groups", icon = icon("table-columns")),
     menuItem("Raw data", tabName = "raw_data", icon = icon("table"))
     
@@ -94,27 +94,33 @@ body <- dashboardBody( tags$head(tags$style(HTML('
             h2("Dashboard"),
             fluidRow(
               column( width = 6,
-                      box(title = "Background information",status = "success", solidHeader = T, width = 12, "The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ),
-                      box(title = "Gender split between the two treatment groups", status = "warning",  width = 12, solidHeader = T, plotlyOutput("genderplot")),
+                      box(title = "Background information",status = "info", solidHeader = T, width = 12, "The Digitalis Investigation Group (DIG) dataset consists of baseline and outcome data from the main DIG trial. In the main trial, heart failure patients meeting the eligibility criterion and whose ejection fraction was 45% or less were randomized to receive either a placebo or digoxin. Outcomes assessed in the trial included: cardiovascular mortality, hospitalization or death from worsening heart failure, hospitalization due to other cardiovascular causes and hospitalization due to non-cardiovascular causes." ),
+                      box(title = "Gender split between the two treatment groups", background = "yellow",  width = 12, solidHeader = T, plotlyOutput("genderplot")),
             ),
             column( width = 6,
-                    box(title = "Proportion of patients in each treatment group",status = "primary",  width = 12, solidHeader = T, plotlyOutput("test") )
+                    box(title = "Proportion of patients in each treatment group",background = "olive",  width = 12, solidHeader = T, plotlyOutput("test") )
             )
             )),
     tabItem(tabName = "univariate_analysis",
             h2("Univariate analysis"),
             fluidRow(
+              box(title = "Table", status = "info", width = 12, solidHeader = T),
+              box(title = "Graph", background = "maroon", width = 12, solidHeader = T)
               
             )
             ),
-    tabItem(tabName = "charts",
-            h2("Charts")
+    tabItem(tabName = "bivariate_analysis",
+            h2("Bivariate analysis"),
+            fluidRow(
+              box(title = "Table", status = "info", width = 12, solidHeader = T),
+              box(title = "Graph", background = "maroon", width = 12, solidHeader = T)
+            )
             ),
     tabItem(tabName = "treatment_groups",
             h2("Treatment groups baseline characteristics comparison"),
             fluidRow(
-            box( title =  "Table of baseline characteristics", status = "primary", solidHeader = T , selectInput(inputId = "selected_variale", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', "Nitrates",  "Dose_of_Digoxin_or_Placebo_Prescribed",  "Pulmonary_Congestion", "Rales", "Limitation_of_Activity", "Peripheral_Edema", "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion")), hr(),  DT::dataTableOutput("baseline")),
-            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group", background = "maroon", selectInput(inputId = "selecte_v", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', 'Nitrates',  'Dose_of_Digoxin_or_Placebo_Prescribed',  'Pulmonary_Congestion', 'Rales', 'Limitation_of_Activity', 'Peripheral_Edema', "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion")), solidHeader = T, plotlyOutput("treatment_plot")),
+            box( title =  "Table of baseline characteristics", status = "info",width = 12, solidHeader = T , selectInput(inputId = "selected_variale", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', "Nitrates",  "Dose_of_Digoxin_or_Placebo_Prescribed",  "Pulmonary_Congestion", "Rales", "Limitation_of_Activity", "Peripheral_Edema", "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion")), hr(),  DT::dataTableOutput("baseline")),
+            box(title = "Analysis of Baseline Charaterisitcs Between Treatment Group",  width = 12,background = "maroon", selectInput(inputId = "selecte_v", label = "Select Baseline Charateristic to Compare", choices = c("Age", "Sex", "Body_Mass_Index", "Race", 'History_of_Hypertension', 'Chest_Xray', 'Ejection_Fraction_Percent', 'Serum_Potassium', 'Serum_Creatinine', 'Heart_Rate', 'Diastolic_BP', 'Systolic_BP', 'Previous_Myocardial',  'Current_Angina',  'History_of_Diabetes', 'Nitrates',  'Dose_of_Digoxin_or_Placebo_Prescribed',  'Pulmonary_Congestion', 'Rales', 'Limitation_of_Activity', 'Peripheral_Edema', "Duration_of_CHF",  "Elevated_Jugular_Venous_Pressure", "Ace_Inhibitors", "Other_Vasodilators", "Dyspnea_at_Rest", "Dyspnea_on_Exertion")), solidHeader = T, plotlyOutput("treatment_plot")),
             )
           
             ),
