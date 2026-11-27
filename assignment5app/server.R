@@ -119,19 +119,19 @@ function(input, output, session){
    output$treatment_plot = renderPlotly({
      req(input$selecte_v)
      selected_v <- data_dig_clean[[input$selecte_v]]
-     if(is.numeric(selected_v)){
+     if (is.numeric(selected_v)) {
        l <- ggplot(data_dig_clean, aes(x = Treatment, y = .data[[input$selecte_v]], 
-                       fill = Treatment) +
-                     geom_boxplot(alpha = 0.8) +
+                       fill = Treatment)) +
+                     geom_boxplot(alpha = 0.8, na.rm = T) +
                      theme_classic() +
-                     scale_fill_manual(values = c("green", "pink")))
+                     scale_fill_manual(values = c("green", "pink"))
        ggplotly(l)
      }
      else{
-       l <- ggplot(data_dig_clean, aes(x = Treatment) +
-                     geom_bar(position = "dodge") +
+       l <- ggplot(data_dig_clean, aes(x = Treatment, fill = .data[[input$selecte_v]])) +
+                     geom_bar(position = "dodge", na.rm = T) +
                      theme_classic() +
-                     scale_fill_manual(values = c("peachpuff2", "thistle3", "darkblue", "darkgrey", "salmon"))
+                     scale_fill_manual(values = c("peachpuff2", "thistle3", "darkblue", "darkgrey", "salmon")
                    
        )
        ggplotly(l) }
