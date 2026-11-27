@@ -123,17 +123,19 @@ function(input, output, session){
        l <- ggplot(data_dig_clean, aes(x = Treatment, y = .data[[input$selecte_v]], 
                        fill = Treatment)) +
                      geom_boxplot(alpha = 0.8, na.rm = T) +
-                     theme_classic() +
-                     scale_fill_manual(values = c("green", "pink"))
+                     theme_grey() +
+                     scale_fill_manual(values = c("green", "pink")) +
+                       labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selecte_v)
        ggplotly(l)
      }
      else{
        l <- ggplot(data_dig_clean, aes(x = Treatment, fill = .data[[input$selecte_v]])) +
                      geom_bar(position = "dodge", na.rm = T) +
-                     theme_classic() +
-                     scale_fill_manual(values = c("peachpuff2", "thistle3", "darkblue", "darkgrey", "salmon")
+                     theme_grey() +
+                     scale_fill_viridis_d(option = "magma") +
+                                         labs(title = "Variable vs Treatment", x = "Treatment Type", y = input$selecte_v)
                    
-       )
+       
        ggplotly(l) }
          
      
