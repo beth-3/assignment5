@@ -72,8 +72,8 @@ data_digTRTMT <- data_dig_clean %>%
 function(input, output, session){
   output$rawtable = DT::renderDataTable(data_dig, server = F, selection = 'single', options = list(scrollX = T))
   output$genderplot = renderPlotly({
-    a <- ggplot(data_dig_clean, aes(x = Treatment, fill = Sex)) + 
-    labs(title = "Gender counts by treatment group", x = "Treatment", y = "Count") + 
+    a <- ggplot(data_dig_clean, aes(x = Treatment,  fill = Treatment)) + 
+    labs(title = "Gender split by treatment group", x = "Treatment", y = "Count") + 
       facet_wrap(~Sex) +
       geom_bar(position = "dodge", na.rm = T) +
       scale_fill_manual(values = c("pink", "paleturquoise3")) +
@@ -82,9 +82,9 @@ function(input, output, session){
   
   })
   output$test = renderPlotly({
-    p <- ggplot(data_digTRTMT, aes(x = Treatment, y = Proportion, fill = Treatment)) +
+    p <- ggplot(data_digTRTMT, aes(x = Treatment, y = Proportion_Patients, fill = Treatment)) +
       geom_col() +
-      labs(title = "Proportion of patients in each treatment group") +
+      labs(title = "No of patients in each treatment group", y = "No. of patients") +
       scale_fill_manual(values = c("royalblue2", "plum3")) +
       theme_grey()
     
